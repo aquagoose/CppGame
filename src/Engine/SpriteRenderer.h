@@ -17,21 +17,25 @@ namespace Engine {
     struct SpriteVertex {
         glm::vec2 Position;
         glm::vec2 TexCoords;
+        float MipLevel;
 
         SpriteVertex() {
             Position = glm::vec2(0.0);
             TexCoords = glm::vec2(0.0);
+            MipLevel = 0;
         }
 
-        SpriteVertex(glm::vec2 position, glm::vec2 texCoords) {
+        SpriteVertex(glm::vec2 position, glm::vec2 texCoords, float mipLevel) {
             Position = position;
             TexCoords = texCoords;
+            MipLevel = mipLevel;
         }
     };
 
     struct Sprite {
         Texture2D* Texture;
         glm::vec2 Position;
+        float MipLevel;
     };
 
     class SpriteRenderer {
@@ -65,7 +69,7 @@ namespace Engine {
 
         void Begin(glm::mat4 transform = glm::mat4(1.0));
         void End();
-        void Draw(Texture2D* texture, glm::vec2 position);
+        void Draw(Texture2D* texture, glm::vec2 position, float miplevel = 0);
     };
 
 } // Engine

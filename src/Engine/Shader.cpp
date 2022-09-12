@@ -72,6 +72,18 @@ namespace Engine {
         glDeleteProgram(_program);
     }
 
+    void Shader::Set(const char *uniform, int value)
+    {
+        GLint loc = GetLocation(uniform);
+        glUniform1i(loc, value);
+    }
+
+    void Shader::Set(const char *uniform, float value)
+    {
+        GLint loc = GetLocation(uniform);
+        glUniform1f(loc, value);
+    }
+
     void Shader::Set(const char* uniform, glm::mat4 matrix) {
         GLint loc = GetLocation(uniform);
         glUniformMatrix4fv(loc, 1, GL_FALSE, &matrix[0][0]);

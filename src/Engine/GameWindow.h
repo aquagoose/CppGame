@@ -7,7 +7,7 @@
 
 #include <glm/glm.hpp>
 #include <glad/glad.h>
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace Engine {
 
@@ -28,6 +28,7 @@ namespace Engine {
 
         void ProcessEvents();
         bool ShouldClose();
+        void Close();
         void Present(int interval);
 
         glm::ivec2 Size();

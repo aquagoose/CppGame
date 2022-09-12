@@ -21,6 +21,8 @@ namespace Engine {
 
         void Use() const;
 
+        void Set(const char* uniform, int value);
+        void Set(const char* uniform, float value);
         void Set(const char* uniform, glm::mat4 matrix);
     };
 

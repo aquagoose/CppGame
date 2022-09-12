@@ -11,6 +11,9 @@ namespace Engine {
         glCullFace(GL_BACK);
         glFrontFace(GL_CCW);
 
+        //glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         SetViewport(glm::ivec4(0, 0, window->Size().x, window->Size().y));
 
         std::cout << "Graphics initialized." << std::endl;

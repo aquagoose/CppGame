@@ -12,12 +12,14 @@ namespace Engine {
         Time() = default;
         static float _lastTime;
         static float _deltaTime;
+        static float _totalTime;
 
     public:
         static void _Initialize();
         static void _Update();
 
         static float DeltaTime();
+        static float TotalTime();
     };
 
 } // Engine

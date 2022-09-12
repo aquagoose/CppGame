@@ -3,6 +3,7 @@
 //
 
 #include "GameWindow.h"
+#include "Input.h"
 #include <iostream>
 
 namespace Engine {
@@ -31,17 +32,29 @@ namespace Engine {
             throw std::exception();
         }
 
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        int x, y;
-        glfwGetMonitorPos(monitor, &x, &y);
-
-        glfwSetWindowPos(window, x + mode->width / 2 - settings.Size.x / 2, y + mode->height / 2 - settings.Size.y / 2);
+        double mx, my;
+        glfwGetCursorPos(window, &mx, &my);
+        int mCount;
+        GLFWmonitor** monitors = glfwGetMonitors(&mCount);
+        for (int i = 0; i < mCount; i++)
+        {
+            const GLFWvidmode* mode = glfwGetVideoMode(monitors[i]);
+            int x, y;
+            std::cout << i << std::endl;
+            glfwGetMonitorPos(monitors[i], &x, &y);
+            if (mx >= x && mx <= x + mode->width && my >= y && my <= y + mode->height)
+            {
+                glfwSetWindowPos(window, x + mode->width / 2 - settings.Size.x / 2, y + mode->height / 2 - settings.Size.y / 2);
+                break;
+            }
+        }
 
         glfwMakeContextCurrent(window);
         gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
         glfwShowWindow(window);
+
+        Input::_Initialize(window);
 
         return new GameWindow(window);
     }
@@ -61,7 +74,7 @@ namespace Engine {
     }
 
     void GameWindow::ProcessEvents() {
-        glfwPollEvents();
+        Input::_Update(_window);
     }
 
     glm::ivec2 GameWindow::Size() {
@@ -72,5 +85,10 @@ namespace Engine {
 
     void GameWindow::SetSize(glm::ivec2 size) {
         glfwSetWindowSize(_window, size.x, size.y);
+    }
+
+    void GameWindow::Close()
+    {
+        glfwSetWindowShouldClose(_window, GLFW_TRUE);
     }
 } // Engine

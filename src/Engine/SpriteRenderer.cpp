@@ -29,6 +29,8 @@ namespace Engine {
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(SpriteVertex), (void*) offsetof(SpriteVertex, Position));
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(SpriteVertex), (void*) offsetof(SpriteVertex, TexCoords));
+        glEnableVertexAttribArray(2);
+        glVertexAttribIPointer(2, 1, GL_INT, sizeof(SpriteVertex), (void*) offsetof(SpriteVertex, MipLevel));
 
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -76,10 +78,11 @@ namespace Engine {
         _deferredSpriteCount = 0;
     }
 
-    void SpriteRenderer::Draw(Texture2D* texture, glm::vec2 position) {
+    void SpriteRenderer::Draw(Texture2D* texture, glm::vec2 position, float mipLevel) {
         _spriteCache.push_back(Sprite {
             .Texture = texture,
-            .Position = position
+            .Position = position,
+            .MipLevel = mipLevel
         });
         _spriteCount++;
     }
@@ -95,10 +98,12 @@ namespace Engine {
         float posX = sprite.Position.x;
         float posY = sprite.Position.y;
 
-        _verticesCache[0] = SpriteVertex(glm::vec2(posX + width, posY + height), glm::vec2(1, 1));
-        _verticesCache[1] = SpriteVertex(glm::vec2(posX + width, posY), glm::vec2(1, 0));
-        _verticesCache[2] = SpriteVertex(glm::vec2(posX, posY), glm::vec2(0, 0));
-        _verticesCache[3] = SpriteVertex(glm::vec2(posX, posY + height), glm::vec2(0, 1));
+        int mipLevel = sprite.MipLevel;
+
+        _verticesCache[0] = SpriteVertex(glm::vec2(posX + width, posY + height), glm::vec2(1, 1), mipLevel);
+        _verticesCache[1] = SpriteVertex(glm::vec2(posX + width, posY), glm::vec2(1, 0), mipLevel);
+        _verticesCache[2] = SpriteVertex(glm::vec2(posX, posY), glm::vec2(0, 0), mipLevel);
+        _verticesCache[3] = SpriteVertex(glm::vec2(posX, posY + height), glm::vec2(0, 1), mipLevel);
 
         uint32_t dc = _deferredSpriteCount * 4;
         _indicesCache[0] = 0 + dc;

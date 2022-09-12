@@ -16,9 +16,9 @@ namespace Engine {
 
     public:
         GameWindow* Window;
-        Graphics* Graphics;
+        class Graphics* Graphics;
 
-        Game();
+        Game(Engine::WindowSettings& settings);
         ~Game();
 
         void Run();

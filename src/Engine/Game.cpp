@@ -7,10 +7,7 @@
 #include <iostream>
 
 namespace Engine {
-    Game::Game() {
-        Engine::WindowSettings settings = {};
-        settings.Size = glm::ivec2(1920, 1080);
-        settings.Title = "Game";
+    Game::Game(Engine::WindowSettings& settings) {
         _settings = settings;
     }
 
