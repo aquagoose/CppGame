@@ -78,10 +78,11 @@ namespace Engine {
         _deferredSpriteCount = 0;
     }
 
-    void SpriteRenderer::Draw(Texture2D* texture, glm::vec2 position, float mipLevel) {
+    void SpriteRenderer::Draw(Texture2D* texture, glm::vec2 position, glm::ivec4 source, float mipLevel) {
         _spriteCache.push_back(Sprite {
             .Texture = texture,
             .Position = position,
+            .Source = source,
             .MipLevel = mipLevel
         });
         _spriteCount++;
@@ -92,18 +93,29 @@ namespace Engine {
             Flush();
         _currentTexture = sprite.Texture;
 
-        int width = sprite.Texture->Size().x;
-        int height = sprite.Texture->Size().y;
+        if (sprite.Source == glm::ivec4(-1))
+            sprite.Source = glm::ivec4(0, 0, sprite.Texture->Size().x, sprite.Texture->Size().y);
+
+        float width = (float) sprite.Texture->Size().x;
+        float height = (float) sprite.Texture->Size().y;
 
         float posX = sprite.Position.x;
         float posY = sprite.Position.y;
 
-        int mipLevel = sprite.MipLevel;
+        float texX = (float) sprite.Source.x / width;
+        float texY = (float) sprite.Source.y / height;
+        float texW = (float) sprite.Source.z / width;
+        float texH = (float) sprite.Source.w / height;
 
-        _verticesCache[0] = SpriteVertex(glm::vec2(posX + width, posY + height), glm::vec2(1, 1), mipLevel);
-        _verticesCache[1] = SpriteVertex(glm::vec2(posX + width, posY), glm::vec2(1, 0), mipLevel);
-        _verticesCache[2] = SpriteVertex(glm::vec2(posX, posY), glm::vec2(0, 0), mipLevel);
-        _verticesCache[3] = SpriteVertex(glm::vec2(posX, posY + height), glm::vec2(0, 1), mipLevel);
+        width = (float) sprite.Source.z;
+        height = (float) sprite.Source.w;
+
+        float mipLevel = sprite.MipLevel;
+
+        _verticesCache[0] = SpriteVertex(glm::vec2(posX + width, posY + height), glm::vec2(texX + texW, texY + texH), mipLevel);
+        _verticesCache[1] = SpriteVertex(glm::vec2(posX + width, posY), glm::vec2(texX + texW, texY), mipLevel);
+        _verticesCache[2] = SpriteVertex(glm::vec2(posX, posY), glm::vec2(texX, texY), mipLevel);
+        _verticesCache[3] = SpriteVertex(glm::vec2(posX, posY + height), glm::vec2(texX, texY + texH), mipLevel);
 
         uint32_t dc = _deferredSpriteCount * 4;
         _indicesCache[0] = 0 + dc;

@@ -7,26 +7,31 @@
 
 #include "GameWindow.h"
 #include "Graphics.h"
+#include "Scene.h"
+#include "SpriteRenderer.h"
 
 namespace Engine {
 
     class Game {
     private:
         WindowSettings _settings;
+        static Game* _instance;
 
     public:
         GameWindow* Window;
         class Graphics* Graphics;
+        SpriteRenderer* Renderer;
 
-        Game(Engine::WindowSettings& settings);
-        ~Game();
+        Game(Engine::WindowSettings& settings, Scene* scene);
+        virtual ~Game();
 
         void Run();
 
-        virtual void Initialize() = 0;
-        virtual void Update() = 0;
-        virtual void Draw() = 0;
-        virtual void Close() = 0;
+        virtual void Initialize();
+        virtual void Update();
+        virtual void Draw();
+
+        static Game* Instance();
     };
 
 } // Engine

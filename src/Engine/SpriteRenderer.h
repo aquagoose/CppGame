@@ -35,6 +35,7 @@ namespace Engine {
     struct Sprite {
         Texture2D* Texture;
         glm::vec2 Position;
+        glm::ivec4 Source;
         float MipLevel;
     };
 
@@ -69,7 +70,7 @@ namespace Engine {
 
         void Begin(glm::mat4 transform = glm::mat4(1.0));
         void End();
-        void Draw(Texture2D* texture, glm::vec2 position, float miplevel = 0);
+        void Draw(Texture2D* texture, glm::vec2 position, glm::ivec4 source, float miplevel = 0);
     };
 
 } // Engine

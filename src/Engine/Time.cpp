@@ -6,19 +6,17 @@
 #include <GLFW/glfw3.h>
 
 namespace Engine {
-     float Time::_lastTime = 0;
      float Time::_deltaTime = 0;
      float Time::_totalTime = 0;
 
     void Time::_Initialize() {
-        _lastTime = (float) glfwGetTime();
     }
 
     void Time::_Update() {
         float time = (float) glfwGetTime();
-        _deltaTime = time - _lastTime;
-        _lastTime = time;
-        _totalTime = time;
+        _deltaTime = time;
+        _totalTime += time;
+        glfwSetTime(0);
     }
 
     float Time::DeltaTime() {

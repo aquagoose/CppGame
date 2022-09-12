@@ -30,7 +30,6 @@ namespace Engine {
 
     void Graphics::SetViewport(glm::ivec4 viewport) {
         _viewport = viewport;
-        std::cout << viewport.x << " " << viewport.y << " " << viewport.z << " " << viewport.w << std::endl;
         glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
     }
 } // Engine

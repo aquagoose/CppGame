@@ -10,7 +10,6 @@ namespace Engine {
     class Time {
     private:
         Time() = default;
-        static float _lastTime;
         static float _deltaTime;
         static float _totalTime;
 
