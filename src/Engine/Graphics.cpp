@@ -12,7 +12,7 @@ namespace Engine {
         glFrontFace(GL_CCW);
 
         //glEnable(GL_BLEND);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         SetViewport(glm::ivec4(0, 0, window->Size().x, window->Size().y));
 
@@ -31,5 +31,16 @@ namespace Engine {
     void Graphics::SetViewport(glm::ivec4 viewport) {
         _viewport = viewport;
         glViewport(viewport.x, viewport.y, viewport.z, viewport.w);
+    }
+
+    bool Graphics::BlendingEnabled()
+    {
+        return _blending;
+    }
+
+    void Graphics::SetBlendingEnabled(bool enabled)
+    {
+        _blending = enabled;
+        enabled ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
     }
 } // Engine

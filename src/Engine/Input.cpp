@@ -6,8 +6,9 @@
 
 namespace Engine
 {
-    std::unordered_set<Keys> _keysDown;
-    std::unordered_set<Keys> _newKeys;
+    std::unordered_set<Keys> Input::_keysDown;
+    std::unordered_set<Keys> Input::_newKeys;
+    glm::vec2 Input::_mousePos;
 
     void Input::_Initialize(GLFWwindow* window)
     {
@@ -17,29 +18,37 @@ namespace Engine
     void Input::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
         if (action == GLFW_PRESS)
         {
-            Engine::_keysDown.insert((Keys) key);
-            Engine::_newKeys.insert((Keys) key);
+            _keysDown.insert((Keys) key);
+            _newKeys.insert((Keys) key);
         }
         else if (action == GLFW_RELEASE)
         {
-            Engine::_keysDown.erase((Keys) key);
-            Engine::_newKeys.erase((Keys) key);
+            _keysDown.erase((Keys) key);
+            _newKeys.erase((Keys) key);
         }
     }
 
     void Input::_Update(GLFWwindow *window)
     {
-        Engine::_newKeys.clear();
+        _newKeys.clear();
         glfwPollEvents();
+        double mX, mY;
+        glfwGetCursorPos(window, &mX, &mY);
+        _mousePos = glm::vec2(mX, mY);
     }
 
     bool Input::KeyDown(Keys key)
     {
-        return Engine::_keysDown.count(key) > 0;
+        return _keysDown.count(key) > 0;
     }
 
     bool Input::KeyPressed(Engine::Keys key)
     {
-        return Engine::_newKeys.count(key) > 0;
+        return _newKeys.count(key) > 0;
+    }
+
+    glm::vec2 Input::MousePosition()
+    {
+        return _mousePos;
     }
 } // Engine

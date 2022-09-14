@@ -12,6 +12,7 @@ namespace Engine {
     class Graphics {
     private:
         glm::ivec4 _viewport;
+        bool _blending;
 
     public:
         Graphics(GameWindow* window);
@@ -20,6 +21,9 @@ namespace Engine {
 
         glm::ivec4 Viewport();
         void SetViewport(glm::ivec4 viewport);
+
+        bool BlendingEnabled();
+        void SetBlendingEnabled(bool enabled);
     };
 
 } // Engine

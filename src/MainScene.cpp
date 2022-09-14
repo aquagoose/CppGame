@@ -85,10 +85,10 @@ void MainScene::Draw()
     // only renders the tiles that are visible.
     // The std::min and max aren't strictly necessary since the camera view should be locked, however this can handle
     // if there is such an occasion where it is not locked without causing undefined behaviour.
-    int minX = (int) std::max(floor((_pos.x * _scale.x) / _scale.x / 32.0) + 1, 0.0);
-    int minY = (int) std::max(floor((_pos.y * _scale.y) / _scale.y / 32.0) + 1, 0.0);
-    int maxX = (int) std::min(ceil(((float) _graphics->Viewport().z + _pos.x * _scale.x) / _scale.x / 32.0) - 1, (double) _tilemapSize.x);
-    int maxY = (int) std::min(ceil(((float) _graphics->Viewport().w + _pos.y * _scale.y) / _scale.y / 32.0) - 1, (double) _tilemapSize.y);
+    int minX = (int) std::max(floor((_pos.x * _scale.x) / _scale.x / 32.0), 0.0);
+    int minY = (int) std::max(floor((_pos.y * _scale.y) / _scale.y / 32.0), 0.0);
+    int maxX = (int) std::min(ceil(((float) _graphics->Viewport().z + _pos.x * _scale.x) / _scale.x / 32.0), (double) _tilemapSize.x);
+    int maxY = (int) std::min(ceil(((float) _graphics->Viewport().w + _pos.y * _scale.y) / _scale.y / 32.0), (double) _tilemapSize.y);
 
     _renderer->Begin(transform);
     for (int y = minY; y < maxY; y++)

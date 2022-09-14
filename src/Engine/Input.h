@@ -7,6 +7,7 @@
 
 #include <unordered_set>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 namespace Engine {
 
@@ -153,8 +154,9 @@ namespace Engine {
     private:
         Input() {}
 
-        std::unordered_set<Keys> _keysDown;
-        std::unordered_set<Keys> _newKeys;
+        static std::unordered_set<Keys> _keysDown;
+        static std::unordered_set<Keys> _newKeys;
+        static glm::vec2 _mousePos;
 
         static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
@@ -165,6 +167,8 @@ namespace Engine {
         static bool KeyDown(Keys key);
 
         static bool KeyPressed(Keys key);
+
+        static glm::vec2 MousePosition();
     };
 
 } // Engine
